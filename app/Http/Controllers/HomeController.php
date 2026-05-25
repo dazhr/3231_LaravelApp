@@ -19,7 +19,8 @@ class HomeController extends Controller
         });
     }
 
-     $events = $query->get();
+        $events = $query->get();
+        $categories = Category::all();
 
         return view('welcome', compact('events', 'categories'));
         
