@@ -36,4 +36,6 @@ return new class extends Migration
         $table->string('poster_path')->nullable();
         $table->timestamps();
     }
+
+    
 };

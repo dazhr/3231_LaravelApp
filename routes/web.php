@@ -5,7 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController as EventAdminController;
-
+use App\Http\Controllers\Admin\CategoryController;
 
 
 // Rute User Area
@@ -17,8 +17,11 @@ Route::get('/my-ticket', [EventController::class, 'ticket'])->name('ticket');
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::resource('events', EventAdminController::class);
     Route::resource('categories', CategoryController::class);
+    Route::resource('partners', \App\Http\Controllers\Admin\PartnerController::class);
 
     Route::get('/', [DashboardController::class,'index'])->name('dashboard');
     Route::get('/transactions', [DashboardController::class,'indexTransaction'])->name('transactions.index');
     // dan seterusnya...
+
+    
 });

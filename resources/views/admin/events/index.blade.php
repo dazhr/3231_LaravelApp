@@ -4,10 +4,36 @@
 @section('page_subtitle', 'Buat dan atur acara seru Anda di sini.')
 
 @section('content')
-<div class="mb-4 text-right">
-    <a href="{{ route('admin.events.create') }}" class="inline-block px-6 py-3 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 active:scale-95 transition">
+
+<!-- SEARCH -->
+<div class="mb-4 flex justify-between items-center">
+    
+    <form method="GET" class="flex gap-3">
+        <input 
+            type="text"
+            name="search"
+            value="{{ request('search') }}"
+            placeholder="Cari event..."
+            class="px-4 py-2 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-200"
+        >
+
+        <button class="px-5 py-2 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 transition">
+            Search
+        </button>
+
+        @if(request('search'))
+            <a href="{{ route('admin.events.index') }}"
+               class="px-5 py-2 bg-slate-200 text-slate-700 rounded-2xl font-bold hover:bg-slate-300 transition">
+                Reset
+            </a>
+        @endif
+    </form>
+
+    <a href="{{ route('admin.events.create') }}" 
+       class="inline-block px-6 py-3 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg hover:bg-indigo-700 transition">
         + Tambah Event Baru
     </a>
+
 </div>
 
 <div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
