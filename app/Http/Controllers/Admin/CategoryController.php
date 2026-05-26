@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Category;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Category;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
@@ -12,7 +13,7 @@ class CategoryController extends Controller
     {
         $query = Category::query();
 
-        if ($request->search) {
+        if ($request->filled('search')) {
             $query->where('name', 'LIKE', '%' . $request->search . '%');
         }
 
@@ -28,18 +29,31 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        Category::create([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name)
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name',
         ]);
 
-        return redirect()->route('categories.index');
+        $slug = Str::slug($request->name);
+        $originalSlug = $slug;
+        $counter = 1;
+
+        while (Category::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
+        }
+
+        Category::create([
+            'name' => $request->name,
+            'slug' => $slug,
+        ]);
+
+        return redirect()->route('admin.categories.index')
+            ->with('success', 'Category berhasil ditambahkan');
     }
 
     public function edit($id)
     {
         $category = Category::findOrFail($id);
-
         return view('admin.categories.edit', compact('category'));
     }
 
@@ -47,18 +61,38 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
 
-        $category->update([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name)
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
         ]);
 
-        return redirect()->route('categories.index');
+        $slug = Str::slug($request->name);
+        $originalSlug = $slug;
+        $counter = 1;
+
+        while (
+            Category::where('slug', $slug)
+                ->where('id', '!=', $category->id)
+                ->exists()
+        ) {
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
+        }
+
+        $category->update([
+            'name' => $request->name,
+            'slug' => $slug,
+        ]);
+
+        return redirect()->route('admin.categories.index')
+            ->with('success', 'Category berhasil diupdate');
     }
 
     public function destroy($id)
     {
-        Category::destroy($id);
+        $category = Category::findOrFail($id);
+        $category->delete();
 
-        return redirect()->route('categories.index');
+        return redirect()->route('admin.categories.index')
+            ->with('success', 'Category berhasil dihapus');
     }
 }
