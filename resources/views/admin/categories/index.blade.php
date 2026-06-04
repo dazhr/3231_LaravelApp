@@ -13,7 +13,7 @@
             type="text"
             name="search"
             value="{{ request('search') }}"
-            placeholder="Cari category..."
+            placeholder="Cari kategori..."
             class="w-1/3 px-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-200"
         >
 
@@ -35,7 +35,7 @@
 
         <a href="{{ route('admin.categories.create') }}"
            class="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition">
-            + Tambah Category
+            + Tambah Kategori
         </a>
     </div>
 
@@ -93,7 +93,7 @@
                 @empty
                 <tr>
                     <td colspan="4" class="text-center py-10 text-slate-400">
-                        Belum ada category
+                        Belum ada kategori
                     </td>
                 </tr>
                 @endforelse

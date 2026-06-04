@@ -66,7 +66,7 @@
                     <td class="py-4">
                         @if($partner->logo_url)
                             <img src="{{ $partner->logo_url }}"
-                                 class="h-10 w-10 object-contain rounded-lg border bg-white">
+                                 class="h-12 w-12 object-contain rounded-lg border bg-white">
                         @else
                             <span class="text-slate-400 text-sm">No logo</span>
                         @endif
