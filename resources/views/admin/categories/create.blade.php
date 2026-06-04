@@ -30,7 +30,7 @@
             @enderror
         </div>
 
-        <!-- SLUG (optional hidden or auto) -->
+        <!-- SLUG -->
         <div>
             <label class="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">
                 Slug (Auto Generate)
